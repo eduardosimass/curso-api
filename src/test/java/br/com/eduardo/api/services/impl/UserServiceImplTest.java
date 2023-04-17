@@ -4,6 +4,7 @@ import br.com.eduardo.api.domain.Users;
 import br.com.eduardo.api.domain.dto.UserDTO;
 import br.com.eduardo.api.repository.UserRepository;
 import br.com.eduardo.api.services.UserService;
+import br.com.eduardo.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,16 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
     }
-
+    @Test
+void whenFindByIdThenReturnAnObjectNotFoundException (){
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto Não Encontrado"));
+        try{
+            service.findById(ID);
+        }catch (Exception ex){
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Objeto Não Encontrado", ex.getMessage());
+        }
+}
     @Test
     void findAll() {
     }
