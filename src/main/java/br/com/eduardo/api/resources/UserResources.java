@@ -1,6 +1,8 @@
 package br.com.eduardo.api.resources;
+import br.com.eduardo.api.domain.Users;
 import br.com.eduardo.api.domain.dto.UserDTO;
 import br.com.eduardo.api.services.UserService;
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,13 @@ public class UserResources {
     URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().
             path("/{id}").buildAndExpand(service.create(obj).getId()).toUri();
         return ResponseEntity.created(uri).build();
+  }
+
+  @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update (@PathVariable Integer id, @RequestBody UserDTO obj){
+        obj.setId(id);
+        return ResponseEntity.ok().body(mapper.map( service.update(obj), UserDTO.class));
+
   }
 
 }
