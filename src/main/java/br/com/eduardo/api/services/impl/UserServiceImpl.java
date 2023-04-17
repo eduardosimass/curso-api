@@ -1,9 +1,12 @@
 package br.com.eduardo.api.services.impl;
 
 import br.com.eduardo.api.domain.Users;
+import br.com.eduardo.api.domain.dto.UserDTO;
 import br.com.eduardo.api.repository.UserRepository;
 import br.com.eduardo.api.services.UserService;
 import br.com.eduardo.api.services.exceptions.ObjectNotFoundException;
+import org.apache.catalina.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private ModelMapper mapper;
     @Override
     public Users findById(Integer id) {
         Optional<Users> obj = repository.findById(id);
@@ -23,4 +29,9 @@ public class UserServiceImpl implements UserService {
   public List<Users> findAll(){
         return repository.findAll();
   }
+
+    @Override
+    public Users create(UserDTO obj) {
+        return repository.save(mapper.map(obj, Users.class));
+    }
 }
