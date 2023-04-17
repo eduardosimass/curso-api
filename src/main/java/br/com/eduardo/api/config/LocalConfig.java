@@ -3,7 +3,6 @@ package br.com.eduardo.api.config;
 
 import br.com.eduardo.api.domain.Users;
 import br.com.eduardo.api.repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
