@@ -4,12 +4,14 @@ import br.com.eduardo.api.domain.Users;
 import br.com.eduardo.api.domain.dto.UserDTO;
 import br.com.eduardo.api.repository.UserRepository;
 import br.com.eduardo.api.services.UserService;
+import br.com.eduardo.api.services.exceptions.DataIntegratyViolationException;
 import br.com.eduardo.api.services.exceptions.ObjectNotFoundException;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users create(UserDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, Users.class));
+    }
+
+    private void findByEmail(UserDTO obj ){
+        Optional<Users> user = repository.findByEmail(obj.getEmail());
+        if(user.isPresent()){
+            throw new DataIntegratyViolationException("Email já cadastrado no sistema!");
+
+        }
     }
 }
