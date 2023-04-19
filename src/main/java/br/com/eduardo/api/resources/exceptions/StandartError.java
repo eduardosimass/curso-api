@@ -12,5 +12,5 @@ public class StandartError {
   private LocalDateTime timestamp;
   private Integer status;
   private String error;
-  private String patha;
+  private String path;
 }
